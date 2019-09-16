@@ -12,7 +12,6 @@ var BAR_WIDTH = 40;
 var BAR_HEIGHT = 150;
 var COLOR_BLACK = '#000';
 
-
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
@@ -31,21 +30,28 @@ var getMaxElement = function (arr) {
 };
 
 var getRandomShade = function (hue, saturation, min, max) {
-
-  // 1. генерим случайное число
-  // 2. подставляем в формулу hsl
-  //  3. вернуть полное значение
-  hsl(240, 100%,' + + '%)';
-
-  var lightness = (Math.random() * (max - min) + min) + '%' ;
-  var randonShade = hsl(hue, saturation, lightness);
-return randomShade;
+  var lightness = (Math.random() * (max - min) + min) + '%';
+  var randomShade = 'hsl(' + hue + ',' + saturation + ',' + lightness + ')';
+  return randomShade;
 };
 
-var createColumn = function () {
+var createColumn = function (ctx, players, times, item) {
 
+  var maxTime = getMaxElement(times);
+  var positionX = CLOUD_X + GAP + (GAP + BAR_WIDTH) * item;
+  var playerNameY = CLOUD_HEIGHT - CLOUD_GAP / 2;
+  ctx.fillStyle = COLOR_BLACK;
+  ctx.fillText(players[item], positionX, playerNameY);
 
+  var columnHeight = (BAR_HEIGHT * times[item]) / maxTime;
+  var columnY = (CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - columnHeight;
+  var randomColor = getRandomShade('240', '100%', 10, 90);
+  ctx.fillStyle = players[item] === 'Вы' ? 'rgba(255, 0, 0, 1)' : randomColor;
+  ctx.fillRect(positionX, columnY, BAR_WIDTH, columnHeight);
 
+  var timesY = columnY - CLOUD_GAP;
+  ctx.fillStyle = COLOR_BLACK;
+  ctx.fillText(Math.floor(times[item]), positionX, timesY);
 };
 
 window.renderStatistics = function (ctx, players, times) {
@@ -59,25 +65,7 @@ window.renderStatistics = function (ctx, players, times) {
   ctx.fillText('Ура вы победили!', headingX, headingY);
   ctx.fillText('Список результатов:', headingX, headingY + TEXT_HEIGHT);
 
-  var maxTime = getMaxElement(times);
-
   for (var i = 0; i < players.length; i++) {
-
-    var positionX = CLOUD_X + GAP + (GAP + BAR_WIDTH) * i;
-    var playerNameY = CLOUD_HEIGHT - CLOUD_GAP / 2;
-    ctx.fillStyle = COLOR_BLACK;
-    ctx.fillText(players[i], positionX, playerNameY);
-
-
-    var columnHeight = (BAR_HEIGHT * times[i]) / maxTime;
-    var columnY = (CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - columnHeight;
-    var randomColor = 'hsl(240, 100%,' + getRandomShade(10, 90) + '%)';
-    ctx.fillStyle = players[i] === 'Вы' ? 'rgba(255, 0, 0, 1)' : randomColor;
-    ctx.fillRect(positionX, columnY, BAR_WIDTH, columnHeight);
-
-
-    var timesY = columnY - CLOUD_GAP;
-    ctx.fillStyle = COLOR_BLACK;
-    ctx.fillText(Math.floor(times[i]), positionX, timesY);
+    createColumn(ctx, players, times, i);
   }
 };
