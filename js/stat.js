@@ -54,14 +54,14 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillText(players[i], positionX, playerNameY);
 
 
-    var columnY = ((CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime));
     var columnHeight = (BAR_HEIGHT * times[i]) / maxTime;
+    var columnY = (CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - columnHeight;
     var randomColor = 'hsl(240, 100%,' + getRandomShade(10, 90) + '%)';
-    var columnColor = players[i] === 'Вы' ? ctx.fillStyle = 'rgba(255, 0, 0, 1)' : ctx.fillStyle = randomColor;
+    ctx.fillStyle = players[i] === 'Вы' ? 'rgba(255, 0, 0, 1)' : randomColor;
     ctx.fillRect(positionX, columnY, BAR_WIDTH, columnHeight);
 
 
-    var timesY = ((CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime)) - CLOUD_GAP;
+    var timesY = columnY - CLOUD_GAP;
     ctx.fillStyle = COLOR_BLACK;
     ctx.fillText(Math.floor(times[i]), positionX, timesY);
   }
