@@ -10,11 +10,12 @@ var FONT_GAP = 15;
 var TEXT_HEIGHT = 20;
 var BAR_WIDTH = 40;
 var BAR_HEIGHT = 150;
-var fontColor = '#000';
+var COLOR_BLACK = '#000';
 
-var renderCloud = function (ctx, x, y, color) {
+
+var renderCloud = function (ctx, x, y, color, font) {
   ctx.fillStyle = color;
-  ctx.font = '16px PT Mono';
+  ctx.font = font;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
@@ -32,10 +33,10 @@ var getMaxElement = function (arr) {
 
 window.renderStatistics = function (ctx, players, times) {
 
-  renderCloud(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, 'rgba(0, 0, 0, 0.3)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+  renderCloud(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, 'rgba(0, 0, 0, 0.7)');
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff', '16px PT Mono');
 
-  ctx.fillStyle = fontColor;
+  ctx.fillStyle = COLOR_BLACK;
   ctx.fillText('Ура вы победили!', CLOUD_X + FONT_GAP * 1.5, CLOUD_Y + FONT_GAP * 2);
   ctx.fillText('Список результатов:', CLOUD_X + FONT_GAP * 1.5, CLOUD_Y + (FONT_GAP * 2) + TEXT_HEIGHT);
 
@@ -43,13 +44,17 @@ window.renderStatistics = function (ctx, players, times) {
 
   for (var i = 0; i < players.length; i++) {
 
-    ctx.fillStyle = fontColor;
+    ctx.fillStyle = COLOR_BLACK;
     ctx.fillText(players[i], CLOUD_X + GAP + (GAP + BAR_WIDTH) * i, CLOUD_HEIGHT - CLOUD_GAP / 2);
 
-    players[i] === 'Вы' ? ctx.fillStyle = 'rgba(255, 0, 0, 1)' : ctx.fillStyle = 'hsl(240, 100%,' + Math.random() * (90 - 10) + 10 + '%)';
+    if (players[i] === 'Вы') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+    } else {
+      ctx.fillStyle = 'hsl(240, 100%,' + Math.random() * (90 - 10) + 10 + '%)';
+    }
     ctx.fillRect(CLOUD_X + GAP + (GAP + BAR_WIDTH) * i, ((CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime)), BAR_WIDTH, (BAR_HEIGHT * times[i]) / maxTime);
 
-    ctx.fillStyle = fontColor;
+    ctx.fillStyle = COLOR_BLACK;
     ctx.fillText(Math.floor(times[i]), CLOUD_X + GAP + (GAP + BAR_WIDTH) * i, ((CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime)) - CLOUD_GAP);
   }
 };
