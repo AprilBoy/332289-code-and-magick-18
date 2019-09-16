@@ -9,7 +9,7 @@ var GAP = 50;
 var FONT_GAP = 15;
 var TEXT_HEIGHT = 20;
 var BAR_WIDTH = 40;
-var barHeight = CLOUD_HEIGHT - GAP * 2 - TEXT_HEIGHT;
+var BAR_HEIGHT = 150;
 var fontColor = '#000';
 
 var renderCloud = function (ctx, x, y, color) {
@@ -52,11 +52,9 @@ window.renderStatistics = function (ctx, players, times) {
     } else {
       ctx.fillStyle = 'hsl(240, 100%,' + Math.random() * (90 - 10) + 10 + '%)';
     }
-    ctx.fillRect(CLOUD_X + GAP + (GAP + BAR_WIDTH) * i, CLOUD_Y + GAP * 1.7, BAR_WIDTH, (barHeight * times[i]) / maxTime);
+    ctx.fillRect(CLOUD_X + GAP + (GAP + BAR_WIDTH) * i, ((CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime)), BAR_WIDTH, (BAR_HEIGHT * times[i]) / maxTime);
 
-    for (var j = 0; j < times.length; j++) {
-      ctx.fillStyle = fontColor;
-      ctx.fillText(Math.floor(times[j]), CLOUD_X + GAP + (GAP + BAR_WIDTH) * j, CLOUD_Y + GAP * 1.7 - FONT_GAP);
-    }
+    ctx.fillStyle = fontColor;
+    ctx.fillText(Math.floor(times[i]), CLOUD_X + GAP + (GAP + BAR_WIDTH) * i, CLOUD_Y + GAP * 1.7 - FONT_GAP);
   }
 };
