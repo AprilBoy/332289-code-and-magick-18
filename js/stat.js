@@ -13,6 +13,9 @@ var BAR_HEIGHT = 150;
 var HALF = 2;
 var POS_COEFF = 1.7;
 var COLOR_BLACK = '#000';
+var COLOR_WHITE = '#fff';
+var COLOR_RED = 'rgba(255, 0, 0, 1)';
+var SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
 var FONT = '16px PT Mono';
 
 
@@ -39,7 +42,7 @@ var createColumn = function (ctx, currentPlayer, currentTime, item, maxTimeFunc)
 
   var columnHeight = (BAR_HEIGHT * currentTime) / maxTimeFunc;
   var columnY = (CLOUD_Y + GAP * POS_COEFF) + BAR_HEIGHT - columnHeight;
-  ctx.fillStyle = currentPlayer === 'Вы' ? 'rgba(255, 0, 0, 1)' : getRandomShade('240', '100%', 10, 90);
+  ctx.fillStyle = currentPlayer === 'Вы' ? COLOR_RED : getRandomShade('240', '100%', 10, 90);
   ctx.fillRect(positionX, columnY, BAR_WIDTH, columnHeight);
 
   var timesY = columnY - CLOUD_GAP;
@@ -50,8 +53,8 @@ var createColumn = function (ctx, currentPlayer, currentTime, item, maxTimeFunc)
 
 window.renderStatistics = function (ctx, players, times) {
 
-  renderCloud(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+  renderCloud(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, SHADOW_COLOR);
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, COLOR_WHITE);
   ctx.font = FONT;
   ctx.fillStyle = COLOR_BLACK;
   var headingX = CLOUD_X + FONT_GAP * POS_COEFF;
