@@ -18,15 +18,7 @@ var renderCloud = function (ctx, x, y, color) {
 };
 
 var getMaxElement = function (arr) {
-  var maxElement = arr[0];
-
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i] > maxElement) {
-      maxElement = arr[i];
-    }
-  }
-
-  return maxElement;
+  return Math.max.apply(null, arr);
 };
 
 var getRandomShade = function (hue, saturation, min, max) {
@@ -35,24 +27,23 @@ var getRandomShade = function (hue, saturation, min, max) {
   return randomShade;
 };
 
-var createColumn = function (ctx, players, times, item) {
+var createColumn = function (ctx, currentPlayer, currentTime, item, maxTimeFunc) {
 
-  var maxTime = getMaxElement(times);
   var positionX = CLOUD_X + GAP + (GAP + BAR_WIDTH) * item;
   var playerNameY = CLOUD_HEIGHT - CLOUD_GAP / 2;
   ctx.fillStyle = COLOR_BLACK;
-  ctx.fillText(players[item], positionX, playerNameY);
+  ctx.fillText(currentPlayer, positionX, playerNameY);
 
-  var columnHeight = (BAR_HEIGHT * times[item]) / maxTime;
+  var columnHeight = (BAR_HEIGHT * currentTime) / maxTimeFunc;
   var columnY = (CLOUD_Y + GAP * 1.7) + BAR_HEIGHT - columnHeight;
-  var randomColor = getRandomShade('240', '100%', 10, 90);
-  ctx.fillStyle = players[item] === 'Вы' ? 'rgba(255, 0, 0, 1)' : randomColor;
+  ctx.fillStyle = currentPlayer === 'Вы' ? 'rgba(255, 0, 0, 1)' : getRandomShade('240', '100%', 10, 90);
   ctx.fillRect(positionX, columnY, BAR_WIDTH, columnHeight);
 
   var timesY = columnY - CLOUD_GAP;
   ctx.fillStyle = COLOR_BLACK;
-  ctx.fillText(Math.floor(times[item]), positionX, timesY);
+  ctx.fillText(Math.floor(currentTime), positionX, timesY);
 };
+
 
 window.renderStatistics = function (ctx, players, times) {
 
@@ -65,7 +56,8 @@ window.renderStatistics = function (ctx, players, times) {
   ctx.fillText('Ура вы победили!', headingX, headingY);
   ctx.fillText('Список результатов:', headingX, headingY + TEXT_HEIGHT);
 
+
   for (var i = 0; i < players.length; i++) {
-    createColumn(ctx, players, times, i);
+    createColumn(ctx, players[i], times[i], i, getMaxElement(times));
   }
 };
