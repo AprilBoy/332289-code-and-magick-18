@@ -20,7 +20,7 @@ var SURNAMES = [
   'Нионго',
   'Ирвинг'
 ];
-var COATCOLOR = [
+var COAT_COLOR = [
   'rgb(101, 137, 164)',
   'rgb(241, 43, 107)',
   'rgb(146, 100, 161)',
@@ -28,7 +28,7 @@ var COATCOLOR = [
   'rgb(215, 210, 55)',
   'rgb(0, 0, 0)'
 ];
-var EYESCOLOR = [
+var EYES_COLOR = [
   'black',
   'red',
   'blue',
@@ -43,17 +43,21 @@ var SIMILAR_WIZARD_ELEMENT = document.querySelector('#similar-wizard-template').
 var getRandomArrayElem = function (arr) {
   var startIndex = Math.floor(Math.random() * (arr.length - 1));
   var randomArrayElem = arr.splice(startIndex, 1);
-  console.log(randomArrayElem);
   return randomArrayElem;
 };
 
 var getWizardsArray = function () {
   var wizards = [];
+  var names = NAMES.slice();
+  var suranmes = SURNAMES.slice();
+  var coatColor = COAT_COLOR.slice();
+  var eyesColor = EYES_COLOR.slice();
+
   for (var i = 0; i < MAX_VALUE; i++) {
     wizards.push({
-      name: getRandomArrayElem(NAMES[0]) + ' ' + getRandomArrayElem(SURNAMES[0]),
-      coatColor: getRandomArrayElem(COATCOLOR[0]),
-      eyeColor: getRandomArrayElem(EYESCOLOR[0])
+      name: getRandomArrayElem(names) + ' ' + getRandomArrayElem(suranmes),
+      coatColor: getRandomArrayElem(coatColor),
+      eyeColor: getRandomArrayElem(eyesColor)
     });
   }
   return wizards;
