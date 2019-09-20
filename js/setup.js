@@ -63,27 +63,25 @@ var getWizardsArray = function () {
   return wizards;
 };
 
-var prepareWizardNode = function (currentWizard) {
+var prepareWizardNode = function (wizard) {
   var wizardElement = SIMILAR_WIZARD_ELEMENT.cloneNode(true);
 
-  wizardElement.querySelector('.setup-similar-label').textContent = currentWizard.name;
-  wizardElement.querySelector('.wizard-coat').style.fill = currentWizard.coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = currentWizard.eyeColor;
-
+  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyeColor;
   return wizardElement;
 };
 
 var renderWizards = function () {
-  var wizards = getWizardsArray();
   var fragment = document.createDocumentFragment();
-  USER_DIALOG.classList.remove('hidden');
-  USER_DIALOG.querySelector('.setup-similar').classList.remove('hidden');
+  var wizards = getWizardsArray();
 
   for (var i = 0; i < wizards.length; i++) {
-    var wizard = prepareWizardNode(wizards[i]);
-    fragment.appendChild(wizard);
+    fragment.appendChild(prepareWizardNode(wizards[i]));
   }
 
   SIMILAR_LIST_ELEMENT.appendChild(fragment);
+  USER_DIALOG.classList.remove('hidden');
+  USER_DIALOG.querySelector('.setup-similar').classList.remove('hidden');
 };
 renderWizards();
