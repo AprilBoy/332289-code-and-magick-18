@@ -58,21 +58,28 @@ var renderWizards = function () {
   return wizards;
 };
 
-var renderWizard = function (wizard) {
-  var wizards = renderWizards();
+var prepareWizardNode = function (currentWizard) {
   var wizardElement = SIMILAR_WIZARD_ELEMENT.cloneNode(true);
+
+  wizardElement.querySelector('.setup-similar-label').textContent = currentWizard.name;
+  wizardElement.querySelector('.wizard-coat').style.fill = currentWizard.coatColor;
+  wizardElement.querySelector('.wizard-eyes').style.fill = currentWizard.eyeColor;
+
+  return wizardElement;
+};
+
+var renderWizard = function () {
+  var wizards = renderWizards();
   var fragment = document.createDocumentFragment();
   USER_DIALOG.classList.remove('hidden');
   USER_DIALOG.querySelector('.setup-similar').classList.remove('hidden');
 
-
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyeColor;
-
   for (var i = 0; i < wizards.length; i++) {
-    fragment.appendChild(wizards[i]);
+    var wizard = prepareWizardNode(wizards[i]);
+    fragment.appendChild(wizard);
+
   }
+
   SIMILAR_LIST_ELEMENT.appendChild(fragment);
 };
 renderWizard();
